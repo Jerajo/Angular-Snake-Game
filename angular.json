@@ -80,8 +80,9 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
-            "tsConfig": "<rootDir>/tsconfig.test.json"
-          }
+            "tsConfig": "tsconfig.spec.json"
+          },
+          "exclude": ["**/node_modules/**"]
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
