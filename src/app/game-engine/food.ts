@@ -1,16 +1,25 @@
-import { randomGridPosition } from '../game-engine/gameboard-grid.util';
+import { GridPosition, randomGridPosition } from '../game-engine/gameboard-grid.util';
 
 export class Food {
   EXPANSION_RATE = 1;
   score = 0;
   food: any;
   snake;
+
   constructor(snake: any) {
     this.snake = snake;
     this.food = this.getRandomFoodPosition();
   }
 
-  update() {
+  set addScore(val: number) {
+    this.score += val;
+  }
+
+  get currentScore(): number {
+    return this.score;
+  }
+
+  update(): void {
     if (this.snake.onSnake(this.food)) {
       this.snake.expandSnake(this.EXPANSION_RATE);
       this.food = this.getRandomFoodPosition();
@@ -18,7 +27,7 @@ export class Food {
     }
   }
 
-  draw(gameBoard: any) {
+  draw(gameBoard: any): void {
     const foodElement = document.createElement('div');
     foodElement.style.gridRowStart = this.food.y;
     foodElement.style.gridColumnStart = this.food.x;
@@ -26,20 +35,11 @@ export class Food {
     gameBoard.appendChild(foodElement);
   }
 
-
-  getRandomFoodPosition() {
+  getRandomFoodPosition(): GridPosition {
     let newFoodPosition;
     while (newFoodPosition == null || this.snake.onSnake(newFoodPosition)) {
-      newFoodPosition = randomGridPosition()
+      newFoodPosition = randomGridPosition();
     }
     return newFoodPosition;
-  }
-
-  set addScore(val: number) {
-    this.score+=val;
-  }
-
-  get currentScore() {
-    return this.score;
   }
 }
